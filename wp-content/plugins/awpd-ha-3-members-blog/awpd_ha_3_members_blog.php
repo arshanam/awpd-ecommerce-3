@@ -13,11 +13,30 @@ class Awpd_Ha_3_Members_Blog {
 
   function __construct(){
 
-// WHEN plugin is activated
     register_activation_hook( __FILE__, array( $this, 'add_role_on_plugin_activation' ) );
     //register_activation_hook( __FILE__, array( $this, 'add_blog_post_types' ) );
-    add_action( 'init', array( $this, 'add_blog_post_types' ) );
+
+    // add_action( 'init', array( $this, 'create_member_taxonomy' ) );
+    add_action( 'init', array( $this, 'add_member_post_types' ) );
+    add_action( 'pre_get_posts', array( $this, 'filter_posts_by_user' ) );
+
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   public function add_role_on_plugin_activation(){
 
@@ -36,6 +55,57 @@ class Awpd_Ha_3_Members_Blog {
 
   }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+  public function create_member_taxonomy() {
+
+
+    // Add new taxonomy, make it hierarchical (like categories)
+    $labels = array(
+      'name'              => _x( 'Member Post', 'taxonomy general name' ),
+      'singular_name'     => _x( 'Member Post', 'taxonomy singular name' ),
+      'search_items'      => __( 'Search Member Posts' ),
+      'all_items'         => __( 'All Member Posts' ),
+      'parent_item'       => __( 'Parent Member Post' ),
+      'parent_item_colon' => __( 'Parent Member Post:' ),
+      'edit_item'         => __( 'Edit Member Post' ),
+      'update_item'       => __( 'Update Member Post' ),
+      'add_new_item'      => __( 'Add New Member Post' ),
+      'new_item_name'     => __( 'New Member Post Name' ),
+      'menu_name'         => __( 'Member Post' ),
+    );
+
+    $args = array(
+      'hierarchical'      => true,
+      'labels'            => $labels,
+      'show_ui'           => true,
+      'show_admin_column' => true,
+      'query_var'         => true,
+      'rewrite'           => array( 'slug' => 'member-posts' ),
+    );
+
+    register_taxonomy( 'member_posts', array( 'member-post' ), $args );
+
+  }
+
+
+
+
+
+
+
+
 // Add user category on user creation
 // http://codex.wordpress.org/Plugin_API/Action_Reference/user_register
 
@@ -47,13 +117,13 @@ class Awpd_Ha_3_Members_Blog {
    * @link http://codex.wordpress.org/Function_Reference/register_post_type
    */
 
-  public function add_blog_post_types(){
+  public function add_member_post_types(){
 
     $labels = array(
         'name'               => 'Member Post',
         'singular_name'      => 'Member Post',
         'menu_name'          => 'Member Posts',
-        'name_admin_bar'     => 'Member Posts',
+        'name_admin_bar'     => 'Mer Posts',
         'add_new'            => 'New Member Post',
         'add_new_item'       => 'New Member Post',
         'new_item'           => 'New Member Post',
@@ -79,14 +149,47 @@ class Awpd_Ha_3_Members_Blog {
         'has_archive'        => true,
         'hierarchical'       => true,
         'menu_position'      => 5,
-        'supports'           => array( 'title', 'editor' ),
+        //'supports'           => array( 'title', 'editor' ),
+        //'taxonomies'         => array( 'category' ),
     );
 
-    register_post_type( 'Member-post', $args );
+    register_post_type( 'member-post', $args );
+    // register_taxonomy_for_object_type('member-post', 'category');
   }
+
 // Limit posts by author to user category
+  public function filter_posts_by_user( $query ){
+
+    // global $wp_query;
+    // $c_user = get_current_user();
+    // For now
+    $current_user = 2;
+
+    $query -> set( 'post_type', 'member-post' );
+    return $query;
+
+
+  }
 
 
 }
 
 new Awpd_Ha_3_Members_Blog();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
