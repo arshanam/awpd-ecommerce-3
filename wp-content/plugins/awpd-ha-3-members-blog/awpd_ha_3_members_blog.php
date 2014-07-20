@@ -106,8 +106,8 @@ class Awpd_Ha_3_Members_Blog {
 
 
 
-// Add user category on user creation
-// http://codex.wordpress.org/Plugin_API/Action_Reference/user_register
+  // Add user category on user creation
+  // http://codex.wordpress.org/Plugin_API/Action_Reference/user_register
 
   /**
    * Register post type for journal entries.
@@ -149,25 +149,24 @@ class Awpd_Ha_3_Members_Blog {
         'has_archive'        => true,
         'hierarchical'       => true,
         'menu_position'      => 5,
-        //'supports'           => array( 'title', 'editor' ),
-        //'taxonomies'         => array( 'category' ),
     );
 
     register_post_type( 'member-post', $args );
-    // register_taxonomy_for_object_type('member-post', 'category');
+
   }
 
-// Limit posts by author to user category
+  // Limit posts by author to user category
   public function filter_posts_by_user( $query ){
 
-    // global $wp_query;
-    // $c_user = get_current_user();
-    // For now
-    $current_user = 2;
+    $c_user = get_current_user_id();
 
-    $query -> set( 'post_type', 'member-post' );
+    $query-> set( 'author', $c_user );
+    $query-> set( 'post_type', 'member-post' );
+    $query-> set( 'post_status', array( 'publish, private' ) );
+    $query-> set( 'posts_per_page', -1 );
     return $query;
 
+    remove_action( 'pre_get_posts', array( $this, 'filter_posts_by_user' ) );
 
   }
 
