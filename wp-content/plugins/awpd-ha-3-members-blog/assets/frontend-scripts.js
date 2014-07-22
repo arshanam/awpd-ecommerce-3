@@ -3,17 +3,15 @@ jQuery(document).ready(function($) {
   console.log('front end scripts!!!!');
 
   $( 'body' ).on( 'submit', '#awpd-ha-3-entry-form', function( e ){
-    console.log('on submit...');
 
     e.preventDefault();
 
     var form        = $( '#awpd-ha-3-entry-form' );
     var action      = $( form ).attr( 'action' );
     var title       = $( form ).find( '#awpd-ha-3-entry-title' ).val();
-    var content     = $( form ).find( '#awpd-ha-3-entry-item-content' ).val();
+    var content     = $( 'textarea#awpd-ha-3-entry-item-content' ).val();
     var post_id     = $( form ).find( '#awpd-ha-3-entry-submit' ).data('post_id');
     var responsediv = $( form ).find( '#awpd_ha_3_ajax_response' );
-    //var spinner     = $( form ).find( '.bcit-todo-ajax-spinner' );
 
     var data = {
       action: action,
@@ -22,11 +20,9 @@ jQuery(document).ready(function($) {
       post_id: post_id,
       security: AWPDHA3.awpd_ha_3_ajax_nonce
     }
+      console.log('posting data', data);
 
     $.post( AWPDHA3.ajaxurl, data, function( response ){
-
-      // $( spinner ).hide();
-      console.log(response);
 
       if ( response.data.success === true ){
         $( responsediv ).append( '<p class="response-message success">'+response.data.message+'</p>' );
@@ -79,23 +75,18 @@ jQuery(document).ready(function($) {
     var button       = $(this);
     var post_id      = $(button).attr( 'href' );
     var list_wrapper = $(button).parents( '.awpd-ha-3-single-entry' );
-    //var spinner      = $(list_wrapper).find('.bcit-todo-ajax-spinner');
     var form_holder  = $(list_wrapper).find( '.form-holder' );
     var entry_wrapper = $(list_wrapper).find( '.entry-wrapper' );
-
-    //$(spinner).show();
 
     var data = {
       action: 'awpd_ha_3_edit_entry',
       post_id: post_id,
       security: AWPDHA3.awpd_ha_3_ajax_nonce
     }
-
-    console.log(data);
+    console.log('going out?', data);
 
     $.post( AWPDHA3.ajaxurl, data, function( response ) {
 
-      //$(spinner).hide();
       console.log('anything?', response);
       if ( response.data.success === true ) {
         $( entry_wrapper ).hide();
@@ -110,5 +101,33 @@ jQuery(document).ready(function($) {
     }); // post
 
   }); // click
+
+  /**
+    * Deleting that task
+    */
+    $( '.awpd-ha-3-edit-button.delete' ).click( function(e){
+
+      e.preventDefault();
+
+      var button       = $(this);
+      var post_id      = $(button).attr( 'href' );
+
+      var data = {
+        action: 'awpd_ha_3_delete_entry',
+        post_id: post_id,
+        security: AWPDHA3.awpd_ha_3_ajax_nonce
+      }
+      console.log('going out?', data);
+
+      $.post( AWPDHA3.ajaxurl, data, function( response ) {
+        console.log('response', response);
+
+        if ( response.data.success === true ) {
+          $( entry_wrapper ).hide();
+          $( list_wrapper ).find(form_holder).empty().append( 'Deleted' );
+        }
+
+      });
+    });
 
 });

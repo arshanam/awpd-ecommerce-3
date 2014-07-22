@@ -16,7 +16,9 @@ class Awpd_Ha_3_Shortcodes{
 
     $html = '<section id="awpd-ha-3-entry-wrapper">';
 
-    if ( current_user_can( 'read_entry' ) || is_admin() || $current_user -> ID === 1 ){
+    // This is a hack to be fixed -- for some reason the is_admin() method
+    // doesn't work here and some other places. Need to fix!
+    if ( current_user_can( 'read_entry' ) || is_admin() || $current_user -> ID === 1 || $current_user -> ID === 2 ){
 
       $entries = $this->get_entries();
 
@@ -106,7 +108,9 @@ class Awpd_Ha_3_Shortcodes{
     $html = '';
 
     $current_user = wp_get_current_user();
-    if ( current_user_can( 'create_entry' ) || current_user_can( 'update_entry' ) || $current_user -> ID === 1 ){
+
+    // This is also a hack to be fixed
+    if ( current_user_can( 'create_entry' ) || current_user_can( 'update_entry' ) || $current_user -> ID === 1 || $current_user -> ID === 2 ){
 
       $html .= awpd_ha_3_get_form_html();
 

@@ -18,7 +18,7 @@ class Awpd_Ha_3_Members_Blog {
 
     add_action( 'init', array( $this, 'add_member_post_types' ) );
     add_action( 'wp_enqueue_scripts', array( $this, 'enqueue' ) );
-    add_filter( 'login_redirect', array( $this, 'nonadmin_login_redirect' ) );
+    // add_filter( 'login_redirect', array( $this, 'nonadmin_login_redirect' ) );
 
   }
 
@@ -55,6 +55,7 @@ class Awpd_Ha_3_Members_Blog {
           'delete_published_posts'   => true,
       )
     );
+    $this->create_caps();
 
   }
 
@@ -166,10 +167,8 @@ class Awpd_Ha_3_Members_Blog {
   }
 
   public function activate(){
-
-    $this->create_caps();
-
     $this->add_member_role();
+
     flush_rewrite_rules();
 
   } //activate

@@ -10,6 +10,9 @@ class Awpd_Ha_3_Ajax_Requests{
     add_action( 'wp_ajax_awpd_ha_3_edit_entry', array( $this, 'get_entry_edit_form' ) );
     add_action( 'wp_ajax_nopriv_awpd_ha_3_edit_entry', array( $this, 'get_entry_edit_form' ) );
 
+    add_action( 'wp_ajax_awpd_ha_3_delete_entry', array( $this, 'delete_entry' ) );
+    add_action( 'wp_ajax_nopriv_awpd_ha_3_delete_entry', array( $this, 'delete_entry' ) );
+
   } // __construct
 
   public function get_entry_edit_form(){
@@ -82,7 +85,7 @@ class Awpd_Ha_3_Ajax_Requests{
    */
   private function save_entry( $posted_values ){
     ?><pre><?php print_r( $posted_values );?></pre><?php
-    $post_content = isset( $posted_values['entry'] ) ? $posted_values['entry'] : '';
+    $post_content = isset( $posted_values['content'] ) ? $posted_values['content'] : '';
 
     $post_args = array(
       'post_title'   => esc_attr( $posted_values['title'] ),
@@ -109,7 +112,7 @@ class Awpd_Ha_3_Ajax_Requests{
         $args['entry_title']       = esc_attr( $posted_values['title'] );
         $args['entry_entry'] = esc_textarea( $posted_values['entry'] );
       } else {
-        $entry         = get_post( $post_id );
+        $entry        = get_post( $post_id );
         $args['html'] = awpd_ha_3_get_single_entry( $entry );
       }
 
@@ -123,6 +126,28 @@ class Awpd_Ha_3_Ajax_Requests{
     return $args;
 
   } // save_taks
+
+  /**
+   * Deletes the post
+   *
+   * @since 1.0
+   * @author Heather Anderson
+   */
+  public function delete_entry(){
+    check_ajax_referer( 'awpd_ha_3_ajax_nonce', 'security' );
+    //if ( isset( $posted_val['post_id'] ) ){
+      $post_id = $_POST['post_id'];
+
+      wp_delete_post( $post_id );
+
+      //if ( $post_id == $posted_val['post_id'] ){
+        $args['Deleted']          = true;
+      //}
+
+      wp_send_json_success( $args );
+
+    //}
+  } // delete_posts
 
 } // Awpd_Ha_3_Ajax_Requests
 

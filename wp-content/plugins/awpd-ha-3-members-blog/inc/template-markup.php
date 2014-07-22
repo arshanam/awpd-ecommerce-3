@@ -23,8 +23,8 @@ function awpd_ha_3_get_form_html( $post_id = null ){
     $html .= '</p>';
 
     $html .= '<p>';
-      $html .= '<label for="awpd-ha-3-entry-item-content">Entry</label>';
-      $html .= '<textarea id="awpd-ha-3-entry-item-content" placeholder="Your journal entry">'. esc_textarea( $entry ) .'</textarea>';
+      $html .= '<label for="awpd-ha-3-entry-item-content">Content</label>';
+      $html .= '<textarea name="awpd-ha-3-entry-title" id="awpd-ha-3-entry-item-content" placeholder="Your journal entry">'. esc_textarea( $entry ) .'</textarea>';
     $html .= '</p>';
 
     $html .= '<input type="submit" id="awpd-ha-3-entry-submit" data-post_id="'. absint( $post_id ) .'" value="Save Entry">';
@@ -51,7 +51,6 @@ function awpd_ha_3_get_form_html( $post_id = null ){
 function awpd_ha_3_get_response_section(){
 
   $html = '<section id="awpd_ha_3_ajax_response">';
-    //$html .= '<img src="'. plugins_url( '/awpd-ha-3-members-blog/assets/images/spinner.gif' ) .'" class="bcit-todo-ajax-spinner" />';
   $html .= '</section>';
 
   return $html;
@@ -73,9 +72,9 @@ function awpd_ha_3_get_single_entry( $entry ){
     $html .= '<span class="entry-wrapper">';
       $html .= '<span class="entry-title">'. esc_attr( get_the_title( $entry->ID ) ) .'</span>';
       $html .= '<span class="entry-description">'. wp_kses_post( $entry->post_content ) .'</span>';
-      $html .= '<a href="'. absint( $entry->ID ) .'" class="awpd-ha-3-edit-button edit">Edit</a>';
-      // $html .= '<img src="'. plugins_url( '/awpd-ha-3-members-blog/assets/images/spinner.gif' ).'" class="bcit-todo-ajax-spinner" />';
-    $html .= '</span>';
+      $html .= '</span>';
+      $html .= '<a href="'. absint( $entry->ID ) .'" class="awpd-ha-3-edit-button edit">Edit Entry</a>';
+      $html .= '<a href="'. absint( $entry->ID ) .'" class="awpd-ha-3-edit-button delete">Delete Entry</a>';
     $html .= '<span class="form-holder"></span>';
   $html .= '</li>';
 

@@ -1,0 +1,73 @@
+#awpd-ha-3-entry-list {
+  list-style: none;
+  margin-left: 0;
+}
+
+#awpd-ha-3-entry-wrapper {
+  margin-top: 150px;
+  clear: both;
+}
+
+#awpd-ha-3-entry-submit {
+  float: right;
+}
+
+#awpd-ha-3-entry-title {
+  width: 100%;
+}
+
+.entry-title {
+  display: block;
+  //width: 180px;
+}
+
+#awpd-ha-3-entry-item-content {
+  min-height: 140px;
+}
+
+.awpd-ha-3-edit-button {
+  background-color: #24890d;
+  border-radius: 2px;
+  float: right;
+  font-weight: 700;
+  color: #fff;
+  border: 0;
+  text-align: center;
+  padding-top: 10px;
+  text-transform: uppercase;
+  vertical-align: bottom;
+  height: 26px;
+  width: 132px;
+  font-size: 12px;
+  margin: 0px 2px;
+}
+
+.awpd-ha-3-edit-button:hover {
+  background-color: #41a62a;
+  color: #fff;
+}
+
+.awpd-ha-3-single-entry {
+  margin: 30px inherit;
+  clear: both;
+}
+
+.awpd-ha-3-single-entry {
+  margin: 30px inherit;
+  clear: both;
+}
+
+.awpd-ha-3-single-entry .entry-title {
+  padding-top: 50px;
+}
+
+.awpd-ha-3-single-entry a {
+  text-decoration: none !important;
+}
+
+.awpd-ha-3-single-entry .entry-description {
+  margin-bottom: 40px;
+  margin-top: 40px;
+  display: block;
+}
+
