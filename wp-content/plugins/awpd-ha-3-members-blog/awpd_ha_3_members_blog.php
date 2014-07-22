@@ -1,16 +1,15 @@
 <?php
 /*
 Plugin Name: AWPD HA 3 Members Blog
-Description: Plugin to Handle Memberships
+Description: Plugin to Handle Memberships for Multiple-User Journaling Site
 Version: 1.0
 Author: Heather Anderson
 */
 
-// require_once( 'inc/redirects.php' );
 require_once( 'inc/shortcodes.php' );
 require_once( 'inc/ajax-requests.php' );
 require_once( 'inc/template-markup.php' );
-// Add new role for bloggers
+
 class Awpd_Ha_3_Members_Blog {
 
   function __construct(){
@@ -19,8 +18,7 @@ class Awpd_Ha_3_Members_Blog {
 
     add_action( 'init', array( $this, 'add_member_post_types' ) );
     add_action( 'wp_enqueue_scripts', array( $this, 'enqueue' ) );
-    //add_action( 'pre_get_posts', array( $this, 'filter_posts_by_user' ) );
-    //add_filter( 'login_redirect', array( $this, 'nonadmin_login_redirect' ) );
+    add_filter( 'login_redirect', array( $this, 'nonadmin_login_redirect' ) );
 
   }
 
@@ -33,7 +31,7 @@ class Awpd_Ha_3_Members_Blog {
    */
   public function enqueue(){
 
-    //wp_enqueue_style( 'bcit_todo_styles', plugins_url( '/bcit-todo-list/assets/frontend-styles.css' ), '', '1.0', 'all' );
+    wp_enqueue_style( 'awpd_ha_3_entry_styles', plugins_url( '/awpd-ha-3-members-blog/assets/frontend-styles.css' ), '', '1.0', 'all' );
 
     wp_enqueue_script( 'awpd_ha_3_frontend_scripts', plugins_url( '/awpd-ha-3-members-blog/assets/frontend-scripts.js' ), array( 'jquery' ), '1.0', true );
     wp_localize_script( 'awpd_ha_3_frontend_scripts', 'AWPDHA3', array(
@@ -42,18 +40,6 @@ class Awpd_Ha_3_Members_Blog {
     ));
 
   } // enqueue
-
-
-
-
-
-
-
-
-
-
-
-
 
   public function add_member_role(){
 
@@ -110,15 +96,6 @@ class Awpd_Ha_3_Members_Blog {
 
   } // remove_caps
 
-
-
-
-
-
-
-
-
-
   /**
    * Register post type for journal entries.
    *
@@ -165,34 +142,12 @@ class Awpd_Ha_3_Members_Blog {
 
   }
 
-  // Limit posts by author to user category
-  public function filter_posts_by_user( $query ){
-
-    $c_user = get_current_user_id();
-
-    // if( !is_admin () ) {
-
-    //   $query-> set( 'author', $c_user );
-    //   $query-> set( 'post_type', 'member-post' );
-    //   $query-> set( 'post_status', array( 'publish, private' ) );
-    //   $query-> set( 'posts_per_page', -1 );
-    //   return $query;
-
-    // } else {
-    //   return $query;
-    // }
-    //remove_action( 'pre_get_posts', array( $this, 'filter_posts_by_user' ) );
-  }
-
   /**
   * Redirect non-admins to homepage after logging in.
   *
   * @since   1.0
   */
   public function nonadmin_login_redirect( $redirect_to, $request, $user ){
-    echo '<br/><br/><h1 style="color: teal;">REDIRECT: ' . $redirect_to . '</h1>';
-    echo '<h1 style="color: teal;>REQUEST: ' . $request . '</h1>';
-    echo '<h1 style="color: teal;>USER: ' . $user . '</h1>';
 
     //is there a user to check?
     global $user;

@@ -10,7 +10,8 @@ class Awpd_Ha_3_Shortcodes{
 
   } // __construct
 
-  public function list_entries(){
+  public function list_entries( $entries ){
+
     $current_user = wp_get_current_user();
 
     $html = '<section id="awpd-ha-3-entry-wrapper">';
@@ -39,7 +40,7 @@ class Awpd_Ha_3_Shortcodes{
    * @access private
    *
    * @uses current_user_can()                 Returns true if current user has given cap
-   * @uses $this->get_form_html()             Returns our form HTML
+   * @uses $this->get_entry_html()             Returns our form HTML
    * @return string       $html               Our HTML form
    */
   private function get_entry_html( $entries ){
@@ -77,7 +78,7 @@ class Awpd_Ha_3_Shortcodes{
     $c_user = get_current_user_id();
 
     $query_args = array(
-      //'author' => $c_user,
+      'author' => $c_user,
       'post_type' => 'member-post',
       'post_status' => array( 'publish, private' ),
       'posts_per_page' => -1 ,
@@ -87,7 +88,7 @@ class Awpd_Ha_3_Shortcodes{
 
     return $entries;
 
-  } // get_task_posts
+  } // get_entries
 
   /**
    * This gives us the form for adding entries.
@@ -111,12 +112,12 @@ class Awpd_Ha_3_Shortcodes{
 
     } else {
 
-      $html .= 'Sorry you are not allowed to add todo items';
+      $html .= 'Sorry you are not allowed to add journal entries';
     }
 
     return $html;
 
-  } // add_item_form
+  } // add_entry_form
 
 } // Awpd_Ha_3_Shortcodes
 

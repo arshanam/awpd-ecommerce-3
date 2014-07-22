@@ -73,7 +73,7 @@ function awpd_ha_3_get_single_entry( $entry ){
     $html .= '<span class="entry-wrapper">';
       $html .= '<span class="entry-title">'. esc_attr( get_the_title( $entry->ID ) ) .'</span>';
       $html .= '<span class="entry-description">'. wp_kses_post( $entry->post_content ) .'</span>';
-      $html .= '<a href="'. absint( $entry->ID ) .'" class="awpd-ha-3-button edit">Edit</a>';
+      $html .= '<a href="'. absint( $entry->ID ) .'" class="awpd-ha-3-edit-button edit">Edit</a>';
       // $html .= '<img src="'. plugins_url( '/awpd-ha-3-members-blog/assets/images/spinner.gif' ).'" class="bcit-todo-ajax-spinner" />';
     $html .= '</span>';
     $html .= '<span class="form-holder"></span>';

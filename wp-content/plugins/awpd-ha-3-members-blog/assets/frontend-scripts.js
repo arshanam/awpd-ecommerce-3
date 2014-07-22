@@ -22,7 +22,7 @@ jQuery(document).ready(function($) {
       post_id: post_id,
       security: AWPDHA3.awpd_ha_3_ajax_nonce
     }
-    console.log(data);
+
     $.post( AWPDHA3.ajaxurl, data, function( response ){
 
       // $( spinner ).hide();
@@ -37,8 +37,8 @@ jQuery(document).ready(function($) {
           var list_wrapper = $(form).parents('.awpd-ha-3-single-entry');
           var task_wrapper = $(list_wrapper).find( '.entry-wrapper' );
 
-          $(task_wrapper).find('.entry-title').empty().append( response.data.task_title );
-          $(task_wrapper).find('.entry-description').empty().append( response.data.task_description );
+          $(task_wrapper).find('.entry-title').empty().append( response.data.entry_title );
+          $(task_wrapper).find('.entry-description').empty().append( response.data.entry_description );
 
           $(task_wrapper).show();
           $(form).remove();
@@ -54,20 +54,61 @@ jQuery(document).ready(function($) {
       } // if success false
     });
 
-    /**
-    * Clears our form for us
-    *
-    * @since 1.0
-    * @author Heather Anderson, though in all fairness most of
-    * these functions are from Curtis [shortcode-slinger] McHale
-    *
-    * @param object  form      required        jquery form object
-    */
-    function clear_form( form ){
-      $( form ).find( 'input[type="text"], textarea' ).val( '' );
-    } // clear_form
-
-
   });
+
+  /**
+  * Clears our form for us
+  *
+  * @since 1.0
+  * @author Heather Anderson, though in all fairness most of
+  * these functions are from Curtis [shortcode-slinger] McHale
+  *
+  * @param object  form      required        jquery form object
+  */
+  function clear_form( form ){
+    $( form ).find( 'input[type="text"], textarea' ).val( '' );
+  } // clear_form
+
+  /**
+  * Getting our edit form for todo tasks
+  */
+  $( '.awpd-ha-3-edit-button.edit' ).click( function(e){
+
+    e.preventDefault();
+
+    var button       = $(this);
+    var post_id      = $(button).attr( 'href' );
+    var list_wrapper = $(button).parents( '.awpd-ha-3-single-entry' );
+    //var spinner      = $(list_wrapper).find('.bcit-todo-ajax-spinner');
+    var form_holder  = $(list_wrapper).find( '.form-holder' );
+    var entry_wrapper = $(list_wrapper).find( '.entry-wrapper' );
+
+    //$(spinner).show();
+
+    var data = {
+      action: 'awpd_ha_3_edit_entry',
+      post_id: post_id,
+      security: AWPDHA3.awpd_ha_3_ajax_nonce
+    }
+
+    console.log(data);
+
+    $.post( AWPDHA3.ajaxurl, data, function( response ) {
+
+      //$(spinner).hide();
+      console.log('anything?', response);
+      if ( response.data.success === true ) {
+        $( entry_wrapper ).hide();
+        $( list_wrapper ).find(form_holder).empty().append( response.data.message );
+      }
+
+      if ( response.data.success === false ) {
+        $( list_wrapper ).append( '<p class="error response-message">' + response.data.message + '</p>' );
+        $( responsediv ).find( '.response-message' ).delay('2000').fadeOut('4000').remove();
+      }
+
+    }); // post
+
+  }); // click
 
 });

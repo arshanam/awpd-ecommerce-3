@@ -7,13 +7,13 @@ class Awpd_Ha_3_Ajax_Requests{
     add_action( 'wp_ajax_awpd_ha_3_add_entry', array( $this, 'process_entry' ) );
     add_action( 'wp_ajax_nopriv_awpd_ha_3_add_entry', array( $this, 'process_entry' ) );
 
-    //add_action( 'wp_ajax_awpd_ha_3_edit_entry', array( $this, 'get_entry_edit_form' ) );
-    //add_action( 'wp_ajax_nopriv_awpd_ha_3_edit_entry', array( $this, 'get_entry_edit_form' ) );
+    add_action( 'wp_ajax_awpd_ha_3_edit_entry', array( $this, 'get_entry_edit_form' ) );
+    add_action( 'wp_ajax_nopriv_awpd_ha_3_edit_entry', array( $this, 'get_entry_edit_form' ) );
 
   } // __construct
 
   public function get_entry_edit_form(){
-
+    $current_user = wp_get_current_user();
     if ( current_user_can( 'update_entry' ) || $current_user -> ID === 1 ){
       $args = array(
         'success' => true,
@@ -81,7 +81,7 @@ class Awpd_Ha_3_Ajax_Requests{
    * @return array        $args                               Success/fail args
    */
   private function save_entry( $posted_values ){
-
+    ?><pre><?php print_r( $posted_values );?></pre><?php
     $post_content = isset( $posted_values['entry'] ) ? $posted_values['entry'] : '';
 
     $post_args = array(
